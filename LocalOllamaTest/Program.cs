@@ -61,8 +61,11 @@ namespace LocalOllamaTest
             List<ChatMessage> chatHistory = new();
             chatHistory.Add(new ChatMessage(Microsoft.Extensions.AI.ChatRole.System,
                 """
-                You are a helpful assistant that makes recommendations.
-                You have access to several tools. Ensure to make use of them as necessary, based on user's request. 
+                You are a helpful assistant that makes recommendations. 
+                You have access to several tools. Always consider whether a tool should be used before answering.
+                - Use tools whenever they are relevant.
+                - Do not ignore available tools.
+                - Be explicit about reasoning about tool choice. 
                 """));
 
 
