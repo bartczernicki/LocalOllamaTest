@@ -12,7 +12,8 @@ This demo extends the basic demo to include:
 - Provides AI explainability, by surfacing both internal reasoning and internal tool calls.
 
 Example of the prompt:  
-**_"Based on the weather in New York city, what types of activities do you recommend? Use the decision intelligence framework to make the recommendations."_**
+**_"Based on the weather in New York city, what types of activities do you recommend? Use the decision intelligence framework to make the recommendations."_**  
+
 Expected Restult:
 - Show reasoning effort 
 - Explaing why/which tools to call 
