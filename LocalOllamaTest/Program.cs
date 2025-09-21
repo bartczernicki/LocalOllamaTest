@@ -83,14 +83,6 @@ namespace LocalOllamaTest
 
                 ChatResponse response = await chatClient.GetResponseAsync(chatHistory, chatOptions);
 
-                var test = response.Usage;
-
-                //await foreach (var update in chatClient.GetStreamingResponseAsync(chatHistory, chatOptions))
-                //{
-                //    Console.Write(update.Text);
-                //    assistantResponse += update.Text;
-                //}
-
                 // Get a count of the messages in the response
                 var messageCount = response.Messages.Count;
 
