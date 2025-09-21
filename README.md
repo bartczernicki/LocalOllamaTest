@@ -10,3 +10,6 @@ This demo extends the basic demo to include:
 - Multiple Tool Calls
 - Sets custom properties for high reasoning effort
 - Provides AI explainability, by surfacing both internal reasoning and internal tool calls.
+
+<img style="display: block; margin: auto;" width ="700px" src="https://raw.githubusercontent.com/bartczernicki/LocalOllamaTest/refs/heads/master/LocalOllamaTest/Images/LocalAI.png">
+<br/>  
