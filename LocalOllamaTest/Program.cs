@@ -51,8 +51,20 @@ namespace LocalOllamaTest
                 description: "Recommends activites todo based on the current weather"
             );
 
+            var toolDecisionFramework = AIFunctionFactory.Create(
+            (Func<string>) GetDecisionIntelligenceFramework,
+            name: "GetDecisionIntelligenceFramework",
+            description: "Gets the steps of a decision intelligence framework to apply"
+        );
+
             // Maintain conversation history
             List<ChatMessage> chatHistory = new();
+            chatHistory.Add(new ChatMessage(Microsoft.Extensions.AI.ChatRole.System,
+                """
+                You are a helpful assistant that makes recommendations.
+                You have access to several tools. Ensure to make use of them as necessary, based on user's request. 
+                """));
+
 
             Console.WriteLine("GPT-OSS Chat - Type 'exit' to quit");
             Console.WriteLine();
@@ -63,7 +75,7 @@ namespace LocalOllamaTest
             // Build options including the custom property
             var chatOptions = new ChatOptions
             {
-                Tools = new[] { toolWeather, toolActivites },
+                Tools = new[] { toolWeather, toolActivites, toolDecisionFramework },
                 AdditionalProperties = new AdditionalPropertiesDictionary()
             };
             chatOptions.AdditionalProperties.Add("reasoning_effort", effortLevel);
@@ -172,7 +184,7 @@ namespace LocalOllamaTest
         // Define a toolActivities: a method to get activities based on weather
         static List<string> GetActivities(string weather)
         {
-            if (weather == "sunny")
+            if (weather.ToUpper() == "SUNNY")
             {
                 return new List<string> { "go for a walk", "have a picnic", "play outdoor sports" };
             }
@@ -180,6 +192,19 @@ namespace LocalOllamaTest
             {
                 return new List<string> { "read a book", "watch a movie", "visit a museum" };
             }
+        }
+
+        static string GetDecisionIntelligenceFramework()
+        {
+            var decisionSteps = """
+                1. Frame the decision prperly.
+                2. Gather the intelligence.
+                3. Apply a decision framework.
+                4. Make a choice/recommendation.
+                5. Communicate the decision/recommendation.
+                """;
+
+            return decisionSteps;
         }
     }
 }
