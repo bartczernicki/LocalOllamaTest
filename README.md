@@ -13,6 +13,10 @@ This demo extends the basic demo to include:
 
 Example of the prompt:  
 **_"Based on the weather in New York city, what types of activities do you recommend? Use the decision intelligence framework to make the recommendations."_**
+Expected Restult:
+- Show reasoning effort 
+- Explaing why/which tools to call 
+- Surface the Function tool calls after reasoning 
 
 <img style="display: block; margin: auto;" width ="700px" src="https://raw.githubusercontent.com/bartczernicki/LocalOllamaTest/refs/heads/master/LocalOllamaTest/Images/LocalAI.png">
 <br/>  
