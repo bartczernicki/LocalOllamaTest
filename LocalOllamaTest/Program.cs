@@ -27,7 +27,7 @@ namespace LocalOllamaTest
             services.AddSingleton<IChatClient>(sp =>
             {
                 var chatClient = new OllamaApiClient(new Uri("http://localhost:11434"), "gpt-oss:20b");
-                // Build a pipeline with tool‑invocation and caching
+                // Build a pipeline with toolWeather‑invocation and caching
                 var builder = new ChatClientBuilder(chatClient)
                     .UseDistributedCache(sp.GetRequiredService<MemoryDistributedCache>())
                     .UseFunctionInvocation();
@@ -39,10 +39,16 @@ namespace LocalOllamaTest
             var chatClient = serviceProvider.GetRequiredService<IChatClient>();
 
             // Use AIFunction / AIFunctionFactory to wrap that. Description attribute helps.
-            var tool = AIFunctionFactory.Create(
+            var toolWeather = AIFunctionFactory.Create(
                 (Func<string, string>) GetCurrentWeather,
                 name: "GetCurrentWeather",
                 description: "Gets the current weather for a specified city"
+            );
+
+            var toolActivites = AIFunctionFactory.Create(
+                (Func<string, List<string>>) GetActivities,
+                name: "GetActivities",
+                description: "Recommends activites todo based on the current weather"
             );
 
             // Maintain conversation history
@@ -57,7 +63,7 @@ namespace LocalOllamaTest
             // Build options including the custom property
             var chatOptions = new ChatOptions
             {
-                Tools = new[] { tool },
+                Tools = new[] { toolWeather, toolActivites },
                 AdditionalProperties = new AdditionalPropertiesDictionary()
             };
             chatOptions.AdditionalProperties.Add("reasoning_effort", effortLevel);
@@ -156,11 +162,24 @@ namespace LocalOllamaTest
             }
         }
 
-        // Define a tool: a method to get current weather
+        // Define a toolWeather: a method to get current weather
         static string GetCurrentWeather(string city)
         {
             // In real ‑ call weather API; here just fake
             return $"The weather in {city} is {(DateTime.Now.Second % 2 == 0 ? "sunny" : "rainy")}.";
+        }
+
+        // Define a toolActivities: a method to get activities based on weather
+        static List<string> GetActivities(string weather)
+        {
+            if (weather == "sunny")
+            {
+                return new List<string> { "go for a walk", "have a picnic", "play outdoor sports" };
+            }
+            else
+            {
+                return new List<string> { "read a book", "watch a movie", "visit a museum" };
+            }
         }
     }
 }
